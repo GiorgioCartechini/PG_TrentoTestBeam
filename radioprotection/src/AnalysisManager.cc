@@ -55,14 +55,14 @@ void AnalysisManager::CreateNtuples()
   manager -> CreateNtupleIColumn("PDG");
   manager -> CreateNtupleIColumn("TargetVol");
   manager -> CreateNtupleDColumn("Ekin");
-  //manager -> CreateNtupleDColumn("Time");
+  manager -> CreateNtupleDColumn("Time");
   manager -> FinishNtuple();
 
   manager -> CreateNtuple("NaI", "NaI");
   manager -> CreateNtupleIColumn("PDG");
   manager -> CreateNtupleIColumn("TargetVol");
   manager -> CreateNtupleDColumn("Ekin");
-  //manager -> CreateNtupleDColumn("Time");
+  manager -> CreateNtupleDColumn("Time");
   manager -> FinishNtuple();
 
   
@@ -70,28 +70,28 @@ void AnalysisManager::CreateNtuples()
   manager -> CreateNtupleIColumn("PDG");
   manager -> CreateNtupleIColumn("TargetVol");
   manager -> CreateNtupleDColumn("Ekin");
-  //manager -> CreateNtupleDColumn("Time");
+  manager -> CreateNtupleDColumn("Time");
   manager -> FinishNtuple();
 
   manager -> CreateNtuple("ScintVeto1", "ScintVeto1");
   manager -> CreateNtupleIColumn("PDG");
   manager -> CreateNtupleIColumn("TargetVol");
   manager -> CreateNtupleDColumn("Ekin");
-  //manager -> CreateNtupleDColumn("Time");
+  manager -> CreateNtupleDColumn("Time");
   manager -> FinishNtuple();
 
   manager -> CreateNtuple("ScintVeto2", "ScintVeto2");
   manager -> CreateNtupleIColumn("PDG");
   manager -> CreateNtupleIColumn("TargetVol");
   manager -> CreateNtupleDColumn("Ekin");
-  //manager -> CreateNtupleDColumn("Time");
+  manager -> CreateNtupleDColumn("Time");
   manager -> FinishNtuple();
 
   manager -> CreateNtuple("ExitTarget", "ExitTarget");
   manager -> CreateNtupleIColumn("PDG");
   manager -> CreateNtupleIColumn("TargetVol");
   manager -> CreateNtupleDColumn("Ekin");
-  //manager -> CreateNtupleDColumn("Time");
+  manager -> CreateNtupleDColumn("Time");
   manager -> FinishNtuple();
 
   manager -> CreateNtuple("LysoEdep", "LysoEdep");
@@ -125,7 +125,7 @@ void AnalysisManager::OpenFile(G4String fileName)
   }
 }
 
-void AnalysisManager::FillLyso(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+void AnalysisManager::FillLyso(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
@@ -133,12 +133,12 @@ void AnalysisManager::FillLyso(G4int PDG, G4int Volume, G4double Ekin /*, G4doub
   manager -> FillNtupleIColumn(0, 1, Volume);
   manager -> FillNtupleDColumn(0, 2, Ekin);
   //manager -> FillNtupleDColumn(0, 3, Edep);
-  //manager -> FillNtupleDColumn(0, 3, Time);
+  manager -> FillNtupleDColumn(0, 3, Time);
   manager -> AddNtupleRow(0);  
 }
 
 
-void AnalysisManager::FillNaI(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+void AnalysisManager::FillNaI(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
@@ -146,11 +146,11 @@ void AnalysisManager::FillNaI(G4int PDG, G4int Volume, G4double Ekin /*, G4doubl
   manager -> FillNtupleIColumn(1, 1, Volume);
   manager -> FillNtupleDColumn(1, 2, Ekin);
   //manager -> FillNtupleDColumn(0, 3, Edep);
-  //manager -> FillNtupleDColumn(0, 3, Time);
+  manager -> FillNtupleDColumn(1, 3, Time);
   manager -> AddNtupleRow(1);  
 }
 
-void AnalysisManager::FillScintStart1(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+void AnalysisManager::FillScintStart1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
@@ -158,11 +158,11 @@ void AnalysisManager::FillScintStart1(G4int PDG, G4int Volume, G4double Ekin /*,
   manager -> FillNtupleIColumn(2, 1, Volume);
   manager -> FillNtupleDColumn(2, 2, Ekin);
   //manager -> FillNtupleDColumn(0, 3, Edep);
-  //manager -> FillNtupleDColumn(0, 3, Time);
+  manager -> FillNtupleDColumn(2, 3, Time);
   manager -> AddNtupleRow(2);  
 }
 
-void AnalysisManager::FillScintVeto1(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+void AnalysisManager::FillScintVeto1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
@@ -170,12 +170,12 @@ void AnalysisManager::FillScintVeto1(G4int PDG, G4int Volume, G4double Ekin /*, 
   manager -> FillNtupleIColumn(3, 1, Volume);
   manager -> FillNtupleDColumn(3, 2, Ekin);
   //manager -> FillNtupleDColumn(0, 3, Edep);
-  //manager -> FillNtupleDColumn(0, 3, Time);
+  manager -> FillNtupleDColumn(3, 3, Time);
   manager -> AddNtupleRow(3);  
 }
 
 
-void AnalysisManager::FillScintVeto2(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+void AnalysisManager::FillScintVeto2(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
@@ -183,11 +183,11 @@ void AnalysisManager::FillScintVeto2(G4int PDG, G4int Volume, G4double Ekin /*, 
   manager -> FillNtupleIColumn(4, 1, Volume);
   manager -> FillNtupleDColumn(4, 2, Ekin);
   //manager -> FillNtupleDColumn(0, 3, Edep);
-  //manager -> FillNtupleDColumn(0, 3, Time);
+  manager -> FillNtupleDColumn(4, 3, Time);
   manager -> AddNtupleRow(4);  
 }
 
-void AnalysisManager::FillTarget(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+void AnalysisManager::FillTarget(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
@@ -195,7 +195,7 @@ void AnalysisManager::FillTarget(G4int PDG, G4int Volume, G4double Ekin /*, G4do
   manager -> FillNtupleIColumn(5, 1, Volume);
   manager -> FillNtupleDColumn(5, 2, Ekin);
   //manager -> FillNtupleDColumn(0, 3, Edep);
-  //manager -> FillNtupleDColumn(0, 3, Time);
+  manager -> FillNtupleDColumn(5, 3, Time);
   manager -> AddNtupleRow(5);  
 }
 

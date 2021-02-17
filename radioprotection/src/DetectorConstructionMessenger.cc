@@ -44,7 +44,7 @@
     GeomDir -> SetGuidance("Command to Change geometry");
 
 
-    Target_Radius = new G4UIcmdWithADoubleAndUnit("/changeGeometry/TargetRadius", this);
+    Target_Radius = new G4UIcmdWithADoubleAndUnit("/changeGeometry/TargetHLength", this);
     Target_Radius -> SetGuidance("Change the target radius");
     Target_Radius -> SetParameterName("TargetRadius", false);
     Target_Radius -> SetDefaultUnit("cm");
@@ -105,7 +105,7 @@ void DetectorConstructionMessenger::SetNewValue(G4UIcommand* command,G4String ne
     }
     else if( command == Target_Radius)
     {
-        TreatmentRoomGeom -> SetTargetRadius(Target_Radius->GetNewDoubleValue(newValue));
+        TreatmentRoomGeom -> SetTargetLength(Target_Radius->GetNewDoubleValue(newValue));
     }
 
 

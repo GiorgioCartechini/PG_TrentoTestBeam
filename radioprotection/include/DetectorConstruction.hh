@@ -78,7 +78,7 @@ public:
     void SetAbsorberSize(G4ThreeVector size);
     void SetAbsorberMaterial(G4String material);
     void SetTargetMaterial(G4String material);
-    void SetTargetRadius(G4double radius);
+    void SetTargetLength(G4double radius);
 
 private:
   AnalysisManager* analysis;

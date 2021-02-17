@@ -65,9 +65,9 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     {
       if(Prestep ->GetStepStatus() == fGeomBoundary)
       {
-        fEventAction  -> SetEkinScStart1( Prestep -> GetKineticEnergy() );
-        fEventAction  -> SetTimeScStart1( aStep->GetTrack() -> GetGlobalTime() );
-        fEventAction  -> SetPDGScStart1( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
+        //fEventAction  -> SetEkinScStart1( Prestep -> GetKineticEnergy() );
+        //fEventAction  -> SetTimeScStart1( aStep->GetTrack() -> GetGlobalTime() );
+        //fEventAction  -> SetPDGScStart1( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
         
         G4int vol = 0;
         if(aStep  ->  GetTrack() -> GetLogicalVolumeAtVertex()->GetName() == "logicTarget")
@@ -75,9 +75,9 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         else
           vol = 0;
 
-        fEventAction  -> SetVertexVolScStart1(vol);
+        //fEventAction  -> SetVertexVolScStart1(vol);
 
-        analysis -> FillScintStart1(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), vol, Prestep -> GetKineticEnergy()/MeV);
+        analysis -> FillScintStart1(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), aStep->GetTrack() -> GetGlobalTime()/ns, vol, Prestep -> GetKineticEnergy()/MeV);
 
 
         //fPName =  aStep  ->  GetTrack() -> GetDefinition() -> GetParticleName();
@@ -91,9 +91,9 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     {
       if(Prestep ->GetStepStatus() == fGeomBoundary)
       {
-        fEventAction  -> SetEkinScVeto1( Prestep -> GetKineticEnergy() );
-        fEventAction  -> SetTimeScVeto1( aStep->GetTrack() -> GetGlobalTime() );
-        fEventAction  -> SetPDGScVeto1( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
+        //fEventAction  -> SetEkinScVeto1( Prestep -> GetKineticEnergy() );
+        //fEventAction  -> SetTimeScVeto1( aStep->GetTrack() -> GetGlobalTime() );
+        //fEventAction  -> SetPDGScVeto1( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
 
         G4int vol = 0;
         if(aStep  ->  GetTrack() -> GetLogicalVolumeAtVertex()->GetName() == "logicTarget")
@@ -101,9 +101,9 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         else
           vol = 0;
 
-        fEventAction  -> SetVertexVolScVeto1(vol);
+        //fEventAction  -> SetVertexVolScVeto1(vol);
 
-        analysis -> FillScintVeto1(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), vol, Prestep -> GetKineticEnergy()/MeV);
+        analysis -> FillScintVeto1(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), aStep->GetTrack() -> GetGlobalTime()/ns, vol, Prestep -> GetKineticEnergy()/MeV);
 
         //fPName =  aStep  ->  GetTrack() -> GetDefinition() -> GetParticleName();
         //G4cout <<volumeName <<"\t" << fPDG<<"\t" << fPName << "\t" << fTime/ns << G4endl;
@@ -117,9 +117,9 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     {
       if(Prestep ->GetStepStatus() == fGeomBoundary)
       {
-        fEventAction  -> SetEkinScVeto2( Prestep -> GetKineticEnergy() );
-        fEventAction  -> SetTimeScVeto2( aStep->GetTrack() -> GetGlobalTime() );
-        fEventAction  -> SetPDGScVeto2( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
+        //fEventAction  -> SetEkinScVeto2( Prestep -> GetKineticEnergy() );
+        //fEventAction  -> SetTimeScVeto2( aStep->GetTrack() -> GetGlobalTime() );
+        //fEventAction  -> SetPDGScVeto2( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
 
         G4int vol = 0;
         if(aStep  ->  GetTrack() -> GetLogicalVolumeAtVertex()->GetName() == "logicTarget")
@@ -127,9 +127,9 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         else
           vol = 0;
 
-        fEventAction  -> SetVertexVolScVeto2(vol);
+        //fEventAction  -> SetVertexVolScVeto2(vol);
 
-        analysis -> FillScintVeto2(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), vol, Prestep -> GetKineticEnergy()/MeV);
+        analysis -> FillScintVeto2(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), aStep->GetTrack() -> GetGlobalTime()/ns, vol, Prestep -> GetKineticEnergy()/MeV);
 
       }
 
@@ -140,9 +140,9 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     {
       if(Prestep ->GetStepStatus() == fGeomBoundary)
       {
-        fEventAction  -> SetEkinNaI( Prestep -> GetKineticEnergy() );
-        fEventAction  -> SetTimeNaI( aStep->GetTrack() -> GetGlobalTime() );
-        fEventAction  -> SetPDGNaI( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
+        //fEventAction  -> SetEkinNaI( Prestep -> GetKineticEnergy() );
+        //fEventAction  -> SetTimeNaI( aStep->GetTrack() -> GetGlobalTime() );
+        //fEventAction  -> SetPDGNaI( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
 
         G4int vol = 0;
         if(aStep  ->  GetTrack() -> GetLogicalVolumeAtVertex()->GetName() == "logicTarget")
@@ -151,22 +151,22 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
           vol = 0;
 
         
-        fEventAction  -> SetVertexVolNaI(vol);
+        //fEventAction  -> SetVertexVolNaI(vol);
 
-        analysis -> FillNaI(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), vol, Prestep -> GetKineticEnergy()/MeV);
-
+        analysis -> FillNaI(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), aStep->GetTrack() -> GetGlobalTime()/ns, vol, Prestep -> GetKineticEnergy()/MeV);
+        G4cout << aStep->GetTrack() -> GetGlobalTime()/ns <<G4endl;
       }
 
-      if(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() == 22)
-        fEventAction  -> AddEdepNaI(aStep -> GetTotalEnergyDeposit());
+      //if(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() == 22)
+        fEventAction  -> AddEdepNaI(aStep -> GetTotalEnergyDeposit()/MeV);
     }
     else if(PhVolumeName == "physicalLyso")
     {
       if(Prestep ->GetStepStatus() == fGeomBoundary)
       {
-        fEventAction  -> SetEkinLyso( Prestep -> GetKineticEnergy() );
-        fEventAction  -> SetTimeLyso( aStep->GetTrack() -> GetGlobalTime() );
-        fEventAction  -> SetPDGLyso( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
+        //fEventAction  -> SetEkinLyso( Prestep -> GetKineticEnergy() );
+        //fEventAction  -> SetTimeLyso( aStep->GetTrack() -> GetGlobalTime() );
+        //fEventAction  -> SetPDGLyso( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
 
         G4int vol = 0;
         if(aStep  ->  GetTrack() -> GetLogicalVolumeAtVertex()->GetName() == "logicTarget")
@@ -174,24 +174,24 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         else
           vol = 0;
 
-        fEventAction  -> SetVertexVolLyso(vol);
+        //fEventAction  -> SetVertexVolLyso(vol);
 
-        analysis -> FillLyso(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), vol, Prestep -> GetKineticEnergy()/MeV);
+        analysis -> FillLyso(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), aStep->GetTrack() -> GetGlobalTime()/ns, vol, Prestep -> GetKineticEnergy()/MeV);
       }
 
         //fPName =  aStep  ->  GetTrack() -> GetDefinition() -> GetParticleName();
         //G4cout <<volumeName <<"\t" << fPDG<<"\t" << fPName << "\t" << fTime/ns << G4endl;
-        if(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() == 22)
-          fEventAction  -> AddEdepLyso(aStep -> GetTotalEnergyDeposit());
+        //if(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() == 22)
+          fEventAction  -> AddEdepLyso(aStep -> GetTotalEnergyDeposit()/MeV);
     }
       
     else if(Prestep->GetPhysicalVolume()-> GetName() == "physicalTarget")
     {
       if(Poststep ->GetStepStatus() == fGeomBoundary)
       {
-        fEventAction  -> SetEkinTgt( Prestep -> GetKineticEnergy() );
-        fEventAction  -> SetTimeTgt( aStep->GetTrack() -> GetGlobalTime() );
-        fEventAction  -> SetPDGTgt( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
+        //fEventAction  -> SetEkinTgt( Prestep -> GetKineticEnergy() );
+        //fEventAction  -> SetTimeTgt( aStep->GetTrack() -> GetGlobalTime() );
+        //fEventAction  -> SetPDGTgt( aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode() );
 
         G4int vol = 0;
         if(aStep  ->  GetTrack() -> GetLogicalVolumeAtVertex()->GetName() == "logicTarget")
@@ -199,9 +199,9 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         else
           vol = 0;
 
-        fEventAction  -> SetVertexVolTgt(vol);
+        //fEventAction  -> SetVertexVolTgt(vol);
 
-        analysis -> FillTarget(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), vol, Poststep -> GetKineticEnergy()/MeV);
+        analysis -> FillTarget(aStep->GetTrack() -> GetDynamicParticle() -> GetPDGcode(), aStep->GetTrack() -> GetGlobalTime()/ns, vol, Poststep -> GetKineticEnergy()/MeV);
 
         //fPName =  aStep  ->  GetTrack() -> GetDefinition() -> GetParticleName();
         //G4cout <<volumeName <<"\t" << fPDG<<"\t" << fPName << "\t" << fTime/ns << G4endl;

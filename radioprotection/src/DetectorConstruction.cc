@@ -99,10 +99,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     // Treatment room sizes
     const G4double worldX = 100.0 *cm;
     const G4double worldY = 100.0 *cm;
-    const G4double worldZ = 100.0 *cm;
+    const G4double worldZ = 300.0 *cm;
     G4bool isotopes = false;
     
-    G4Material* airNist =  G4NistManager::Instance()->FindOrBuildMaterial("G4_Galactic", isotopes);
+    G4Material* airNist =  G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR", isotopes);
     
     G4Box* treatmentRoom = new G4Box("TreatmentRoom",
                                      worldX*0.5,
@@ -372,10 +372,10 @@ void DetectorConstruction::SetDefaultDimensions()
   G4bool isotopes = false;
   G4Material* Al_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");
 
-  ScintStart_1_HLX = 5.*cm;
-  ScintStart_1_HLY = 5.*cm;
+  ScintStart_1_HLX = 2.5*cm;
+  ScintStart_1_HLY = 2.5*cm;
   ScintStart_1_HLZ = 1.*mm;
-  ScintStart_1_Trans = G4ThreeVector(0,0,20.*cm);
+  ScintStart_1_Trans = G4ThreeVector(0,0,100.*cm);
 
 
   WP_HLX = 5.*cm;
@@ -384,11 +384,12 @@ void DetectorConstruction::SetDefaultDimensions()
   WP_Trans = G4ThreeVector(0,0,10.*cm);
   WP_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER");
 
-  Target_RMax = 3.175*mm; //Y89Default
+  Target_RMax = 0.5*cm; //Y89Default
   Target_RMin = 0.*mm;
   Target_HLZ = 5*mm;  //1cm alt0
-  TargetRot.rotateX(90*deg);
-  Target_Trans = G4ThreeVector(0,0,30*cm); //the NaI entrance is at 89 cm from WP lateral edge
+  //TargetRot.rotateX(90*deg);
+  TargetRot.rotateX(0*deg);
+  Target_Trans = G4ThreeVector(0,0,120*cm); //the NaI entrance is at 89 cm from WP lateral edge
   Target_mat = MaterialWithSingleIsotope("YttriumRod","YRod", 4.47*g/cm3, 39,  89);
 
   G4Element* el_Cu =  new G4Element("El_Copper","Cu", 29,  63.54*g/mole);
@@ -404,7 +405,7 @@ void DetectorConstruction::SetDefaultDimensions()
   ScintVeto_2_HLX = 2.5*cm;
   ScintVeto_2_HLY = 2.5*cm;
   ScintVeto_2_HLZ = 2.5*mm;
-  ScintVeto_2_Trans = Target_Trans - G4ThreeVector(5.*cm,0,0);
+  ScintVeto_2_Trans = Target_Trans - G4ThreeVector(10.*cm,0,0);
 
 
   //LysoCrystal
@@ -415,7 +416,7 @@ void DetectorConstruction::SetDefaultDimensions()
   Lyso_HLY = 20.*mm;
   Lyso_HLZ = 40.*mm;
   YRot.rotateY(90*deg);
-  Lyso_Trans = ScintVeto_1_Trans + G4ThreeVector(1.*cm+LysoAlShell_HLZ,0,0); //the lyso entrance is at 89 cm from WP lateral edge
+  Lyso_Trans = ScintVeto_1_Trans + G4ThreeVector(10.*cm+LysoAlShell_HLZ,0,0); //the lyso entrance is at 89 cm from WP lateral edge
 
   LysoAlShell_mat = Al_mat;
   G4Element* el_Lu =  new G4Element("Lutezio","Lu", 71,  174.967*g/mole);
@@ -435,7 +436,7 @@ void DetectorConstruction::SetDefaultDimensions()
   NaI_RMax = 25.5*mm;
   NaI_RMin = 0.*mm;
   NaI_HLZ = 25.5*mm;
-  NaI_Trans = ScintVeto_2_Trans - G4ThreeVector(1.*cm+NaIAlShell_HLZ,0,0); //the NaI entrance is at 89 cm from WP lateral edge
+  NaI_Trans = ScintVeto_2_Trans - G4ThreeVector(5.*cm+NaIAlShell_HLZ,0,0); //the NaI entrance is at 89 cm from WP lateral edge
 
   NaIAlShell_mat = Al_mat;
   NaI_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_SODIUM_IODIDE");
@@ -511,25 +512,37 @@ void DetectorConstruction::SetTargetMaterial(G4String material)
   {
     Target_mat = Cu_mat;
     logicTarget ->SetMaterial(Target_mat);
+G4cout << "The material of the Absorber has been changed to " << material << G4endl;
     G4RunManager::GetRunManager()->GeometryHasBeenModified();
   }
   else if(material == "Yttrium")
   {
     logicTarget ->SetMaterial(Target_mat);
+G4cout << "The material of the Absorber has been changed to " << material << G4endl;
     G4RunManager::GetRunManager()->GeometryHasBeenModified();
+  }
+ else if (G4Material* pttoMaterial = G4NistManager::Instance()->FindOrBuildMaterial(material, false) )
+  {
+    if (pttoMaterial)
+    {
+      Target_mat  = pttoMaterial;
+       logicTarget -> SetMaterial(Target_mat);
+      G4cout << "The material of the Absorber has been changed to " << material << G4endl;
+      G4RunManager::GetRunManager()->GeometryHasBeenModified();
+    }
   }
   else
   {
-
     G4cout << "WARNING: material \"" << material << "\" doesn't exist in NIST elements/materials"
       " table [located in $G4INSTALL/source/materials/src/G4NistMaterialBuilder.cc]" << G4endl;
-    G4cout << "Yttrium MATERIAL IS SELECTED" << G4endl;
   }
+
 }
 
-void DetectorConstruction::SetTargetRadius(G4double value)
+void DetectorConstruction::SetTargetLength(G4double value)
 {
-  solidTarget -> SetOuterRadius(value);
+  //solidTarget -> SetOuterRadius(value);
+  solidTarget -> SetZHalfLength(value);
   G4RunManager::GetRunManager()->GeometryHasBeenModified();
 }
 

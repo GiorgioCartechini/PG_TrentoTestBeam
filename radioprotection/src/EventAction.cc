@@ -137,6 +137,11 @@ void EventAction::EndOfEventAction(const G4Event* event)
   //G4cout << GetPDGNaI() <<"\t" << GetEkinNaI()/MeV <<"\t" << GetEdepNaI()/MeV << G4endl;
   //G4cout << GetPDGLyso() <<"\t" << GetEkinLyso()/MeV <<"\t" << GetEdepLyso()/MeV << G4endl;
 
+  //analysisMan -> FillScintStart1(GetPDGScStart1(), GetVertexVolScStart1(), GetEkinScStart1()/MeV);
+  //analysisMan -> FillScintVeto1(GetPDGScVeto1(), GetVertexVolScVeto1(), GetEkinScVeto1()/MeV);
+  //analysisMan -> FillScintVeto2(GetPDGScVeto2(), GetVertexVolScVeto2(), GetEkinScVeto2()/MeV);
+  //analysisMan -> FillNaI(GetPDGNaI(), GetVertexVolNaI(), GetEkinNaI()/MeV);
+  //analysisMan -> FillLyso(GetPDGLyso(), GetVertexVolLyso(), GetEkinLyso()/MeV);
   analysisMan -> FillNaIEdep(GetEdepNaI()/MeV);
   analysisMan -> FillLysoEdep(GetEdepLyso()/MeV);
   /*

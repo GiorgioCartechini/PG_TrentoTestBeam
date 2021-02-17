@@ -48,12 +48,12 @@ public:
   
   void OpenFile(G4String fileName); //open output file
    
-  void FillLyso(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/);
-  void FillNaI(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
-  void FillScintStart1(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
-  void FillScintVeto1(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
-  void FillScintVeto2(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
-  void FillTarget(G4int PDG, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/);
+  void FillLyso(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/);
+  void FillNaI(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
+  void FillScintStart1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
+  void FillScintVeto1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
+  void FillScintVeto2(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
+  void FillTarget(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/);
   void FillLysoEdep(G4double Edep);
   void FillNaIEdep(G4double Edep); 
   // Information about secondary particles
