@@ -43,15 +43,15 @@ class G4Step;
 
 class SteppingAction: public G4UserSteppingAction
 {
-public:
- SteppingAction(AnalysisManager* analysis, EventAction* eventAction);
- ~SteppingAction();
+	public:
+		SteppingAction(AnalysisManager* analysis, EventAction* eventAction);
+		~SteppingAction();
 
- void UserSteppingAction(const G4Step* aStep);
+		void UserSteppingAction(const G4Step* aStep);
 
-private:
- AnalysisManager* analysis; 
- G4TrackVector* fSecondary;
- EventAction* fEventAction;
+	private:
+		AnalysisManager* analysis; 
+		G4TrackVector* fSecondary;
+		EventAction* fEventAction;
 };
 #endif

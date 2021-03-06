@@ -85,6 +85,13 @@ public:
   void AddEdepLyso     (G4double de)      { fEdepLyso += de; };
   void SetTimeLyso     (G4double t)      { fTimeLyso = t; };
 
+  void SetPDGLaBr     (G4int pdg)      { fPDGLaBr = pdg; };
+  void SetVertexVolLaBr    (G4int volume)      { fVolLaBr = volume; };
+  void SetEkinLaBr     (G4double EndEkin)      { fEkinLaBr = EndEkin; };
+  void AddEdepLaBr     (G4double de)      { fEdepLaBr += de; };
+  void SetTimeLaBr     (G4double t)      { fTimeLaBr = t; };
+
+
   void SetPDGTgt     (G4int pdg)      { fPDGTgt = pdg; };
   void SetVertexVolTgt    (G4int volume)      { fVolTgt = volume; };
   void SetEkinTgt     (G4double EndEkin)      { fEkinTgt = EndEkin; };
@@ -122,6 +129,13 @@ public:
   G4double GetEkinLyso() const     { return fEkinLyso; };
   G4double GetEdepLyso() const     { return fEdepLyso; };
   G4double GetTimeLyso() const     { return fTimeLyso; };
+
+  G4int GetPDGLaBr() const      { return fPDGLaBr; };
+  G4int GetVertexVolLaBr() const      { return fVolLaBr; };
+  G4double GetEkinLaBr() const     { return fEkinLaBr; };
+  G4double GetEdepLaBr() const     { return fEdepLaBr; };
+  G4double GetTimeLaBr() const     { return fTimeLaBr; };
+
 
   G4int GetPDGTgt() const      { return fPDGTgt; };
   G4int GetVertexVolTgt() const      { return fVolTgt; };
@@ -174,6 +188,13 @@ private:
   G4double  fEkinLyso;
   G4double  fEdepLyso;
   G4double  fTimeLyso;
+
+  G4int     fPDGLaBr;
+  G4int     fVolLaBr;
+  G4double  fEkinLaBr;
+  G4double  fEdepLaBr;
+  G4double  fTimeLaBr;
+
 
   G4int     fPDGTgt;
   G4int     fVolTgt;

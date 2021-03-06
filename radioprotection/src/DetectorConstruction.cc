@@ -57,31 +57,31 @@
 using namespace std;
 
 DetectorConstruction::DetectorConstruction(AnalysisManager* analysis_manager):
-solidWP(0),
-solidTarget(0),
-logicTreatmentRoom(0),
-logicWP(0), 
-logicTarget(0), 
-logicScintStart_1(0), 
-logicScintVeto_1(0), 
-logicScintVeto_2(0),
-logicLysoAlShell(0), 
-logicLyso(0), 
-logicNaIAlShell(0), 
-logicNaI(0), 
-physicalTreatmentRoom(0), 
-physicalWP(0), 
-physicalTarget(0),
-physicalScintStart_1(0), 
-physicalScintVeto_1(0), 
-physicalScintVeto_2(0),
-physicalLysoAlShell(0), 
-physicalLyso(0), 
-physicalNaIAlShell(0), 
-physicalNaI(0) 
+	solidWP(0),
+	solidTarget(0),
+	logicTreatmentRoom(0),
+	logicWP(0), 
+	logicTarget(0), 
+	logicScintStart_1(0), 
+	logicScintVeto_1(0), 
+	logicScintVeto_2(0),
+	logicLysoAlShell(0), 
+	logicLyso(0), 
+	logicNaIAlShell(0), 
+	logicNaI(0), 
+	physicalTreatmentRoom(0), 
+	physicalWP(0), 
+	physicalTarget(0),
+	physicalScintStart_1(0), 
+	physicalScintVeto_1(0), 
+	physicalScintVeto_2(0),
+	physicalLysoAlShell(0), 
+	physicalLyso(0), 
+	physicalNaIAlShell(0), 
+	physicalNaI(0) 
 {
 	analysis = analysis_manager;
-  DetectorMessenger = new DetectorConstructionMessenger(this);
+	DetectorMessenger = new DetectorConstructionMessenger(this);
 }
 
 DetectorConstruction::~DetectorConstruction(){
@@ -90,204 +90,257 @@ DetectorConstruction::~DetectorConstruction(){
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
-    
-  SetDefaultDimensions();
 
-  // -----------------------------
-    // Treatment room - World volume
-    //------------------------------
-    // Treatment room sizes
-    const G4double worldX = 100.0 *cm;
-    const G4double worldY = 100.0 *cm;
-    const G4double worldZ = 300.0 *cm;
-    G4bool isotopes = false;
-    
-    G4Material* airNist =  G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR", isotopes);
-    
-    G4Box* treatmentRoom = new G4Box("TreatmentRoom",
-                                     worldX*0.5,
-                                     worldY*0.5,
-                                     worldZ*0.5);
-    
-    logicTreatmentRoom = new G4LogicalVolume(treatmentRoom,
-                                             airNist,
-                                             "logicTreatmentRoom",
-                                             0,0,0);
-    
-    physicalTreatmentRoom = new G4PVPlacement(0,
-                                              G4ThreeVector(),
-                                              "physicalTreatmentRoom",
-                                              logicTreatmentRoom,
-                                              0,
-                                              false,
-                                              0);
-    
-    
-    // The treatment room is invisible in the Visualisation
-    logicTreatmentRoom -> SetVisAttributes (G4VisAttributes::GetInvisible());
+	SetDefaultDimensions();
+
+	// -----------------------------
+	// Treatment room - World volume
+	//------------------------------
+	// Treatment room sizes
+	const G4double worldX = 100.0 *cm;
+	const G4double worldY = 100.0 *cm;
+	const G4double worldZ = 300.0 *cm;
+	G4bool isotopes = false;
+
+	G4Material* airNist =  G4NistManager::Instance()->FindOrBuildMaterial("G4_AIR", isotopes);
+
+	G4Box* treatmentRoom = new G4Box("TreatmentRoom",
+			worldX*0.5,
+			worldY*0.5,
+			worldZ*0.5);
+
+	logicTreatmentRoom = new G4LogicalVolume(treatmentRoom,
+			airNist,
+			"logicTreatmentRoom",
+			0,0,0);
+
+	physicalTreatmentRoom = new G4PVPlacement(0,
+			G4ThreeVector(),
+			"physicalTreatmentRoom",
+			logicTreatmentRoom,
+			0,
+			false,
+			0);
 
 
-    NaI();                
-    LYSO();
-    Target();
-    WaterPhantom();
-    ScintStart_1();
-    ScintVeto_1();
-    ScintVeto_2();
+	// The treatment room is invisible in the Visualisation
+	logicTreatmentRoom -> SetVisAttributes (G4VisAttributes::GetInvisible());
 
-        
-return physicalTreatmentRoom; 
+
+	NaI();
+	LaBr(); //substite of LYSO                
+	//LYSO();
+	Target();
+	WaterPhantom();
+	ScintStart_1();
+	ScintVeto_1();
+	ScintVeto_2();
+
+
+	return physicalTreatmentRoom; 
 
 }
 
 void DetectorConstruction::WaterPhantom()
 {
-  /***** WATER PHANTOM *****/
-  G4bool isotopes = false;
-  //G4Material* WaterNist =  G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER", isotopes);
+	/***** WATER PHANTOM *****/
+	G4bool isotopes = false;
+	//G4Material* WaterNist =  G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER", isotopes);
 
-    solidWP = new G4Box("solidWP",
-                                WP_HLX,
-                                WP_HLY,
-                                WP_HLZ);
+	solidWP = new G4Box("solidWP",
+			WP_HLX,
+			WP_HLY,
+			WP_HLZ);
 
-    logicWP = new G4LogicalVolume(solidWP,
-                                             WP_mat,
-                                             "logicWP",
-                                             0,0,0);
-    
-    physicalWP = new G4PVPlacement(0,                     //no rotation
-                      WP_Trans,       //translation
-                      logicWP,            //its logical volume
-                      "physicalWP",               //its name
-                      logicTreatmentRoom,                     //its mother  volume
-                      false,                 //no boolean operation
-                      0,                     //copy number
-                      checkOverlaps);        //overlaps checking
+	logicWP = new G4LogicalVolume(solidWP,
+			WP_mat,
+			"logicWP",
+			0,0,0);
+
+	physicalWP = new G4PVPlacement(0,                     //no rotation
+			WP_Trans,       //translation
+			logicWP,            //its logical volume
+			"physicalWP",               //its name
+			logicTreatmentRoom,                     //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
 }
 
 void DetectorConstruction::Target()
 {
-  solidTarget = new G4Tubs("solidTarget",                       //its name
-             Target_RMin, 
-             Target_RMax, 
-             Target_HLZ,
-             0,
-             360*deg);     //its size
-      
-  logicTarget = new G4LogicalVolume(solidTarget,          //its solid
-          Target_mat,           //its material
-          "logicTarget");            //its name
-                                   
-  physicalTarget =  new G4PVPlacement(G4Transform3D(TargetRot,  Target_Trans),       //la faccia in z del WP e' nell'origine
-            logicTarget,            //its logical volume
-            "physicalTarget",               //its name
-            logicTreatmentRoom,   //its mother  volume
-            false,                 //no boolean operation
-            0,                     //copy number
-            checkOverlaps);        //overlaps checking
-    
+	solidTarget = new G4Tubs("solidTarget",                       //its name
+			Target_RMin, 
+			Target_RMax, 
+			Target_HLZ,
+			0,
+			360*deg);     //its size
+
+	logicTarget = new G4LogicalVolume(solidTarget,          //its solid
+			Target_mat,           //its material
+			"logicTarget");            //its name
+
+	physicalTarget =  new G4PVPlacement(G4Transform3D(TargetRot,  Target_Trans),       //la faccia in z del WP e' nell'origine
+			logicTarget,            //its logical volume
+			"physicalTarget",               //its name
+			logicTreatmentRoom,   //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
+
 }
 
 /////////////////////////////////////////////////////////////////////////////
 void DetectorConstruction::LYSO()
 {
-  // ------------------//
-  // WATER PHANTOM   //
-  //-------------------//
+	// ------------------//
+	// WATER PHANTOM   //
+	//-------------------//
 
-  G4Box* solidLysoAlShell = new G4Box("solidLysoAlShell",                       //its name
-              LysoAlShell_HLX, 
-              LysoAlShell_HLY, 
-              LysoAlShell_HLZ);     //its size
-      
-  logicLysoAlShell = new G4LogicalVolume(solidLysoAlShell,          //its solid
-           LysoAlShell_mat,           //its material
-           "LysoAlShellLV");            //its name
-                                   
-  physicalLysoAlShell =  new G4PVPlacement( G4Transform3D(YRot, Lyso_Trans),      //la faccia in z del WP e' nell'origine
-             logicLysoAlShell,            //its logical volume
-             "physicalLysoAlShell",               //its name
-             logicTreatmentRoom,   //its mother  volume
-             false,                 //no boolean operation
-             0,                     //copy number
-             checkOverlaps);        //overlaps checking
-  //logicLysoAlShell -> SetVisAttributes(skyBlue);
+	G4Box* solidLysoAlShell = new G4Box("solidLysoAlShell",                       //its name
+			LysoAlShell_HLX, 
+			LysoAlShell_HLY, 
+			LysoAlShell_HLZ);     //its size
 
-  
-  G4Box* solidLyso = new G4Box("solidLyso",                       //its name
-             Lyso_HLX, 
-             Lyso_HLY, 
-             Lyso_HLZ);     //its size
-      
-  logicLyso = new G4LogicalVolume(solidLyso,          //its solid
-          Lyso_mat,           //its material
-          "logicLyso");            //its name
-                                   
-  physicalLyso =  new G4PVPlacement(0,                     //no rotation
-            G4ThreeVector(0,0,0),       //la faccia in z del WP e' nell'origine
-            logicLyso,            //its logical volume
-            "physicalLyso",               //its name
-            logicLysoAlShell,   //its mother  volume
-            false,                 //no boolean operation
-            0,                     //copy number
-            checkOverlaps);        //overlaps checking
-  //logicLyso -> SetVisAttributes(red);
-    
-    
+	logicLysoAlShell = new G4LogicalVolume(solidLysoAlShell,          //its solid
+			LysoAlShell_mat,           //its material
+			"LysoAlShellLV");            //its name
+
+	physicalLysoAlShell =  new G4PVPlacement( G4Transform3D(YRot, Lyso_Trans),      //la faccia in z del WP e' nell'origine
+			logicLysoAlShell,            //its logical volume
+			"physicalLysoAlShell",               //its name
+			logicTreatmentRoom,   //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
+	//logicLysoAlShell -> SetVisAttributes(skyBlue);
+
+
+	G4Box* solidLyso = new G4Box("solidLyso",                       //its name
+			Lyso_HLX, 
+			Lyso_HLY, 
+			Lyso_HLZ);     //its size
+
+	logicLyso = new G4LogicalVolume(solidLyso,          //its solid
+			Lyso_mat,           //its material
+			"logicLyso");            //its name
+
+	physicalLyso =  new G4PVPlacement(0,                     //no rotation
+			G4ThreeVector(0,0,0),       //la faccia in z del WP e' nell'origine
+			logicLyso,            //its logical volume
+			"physicalLyso",               //its name
+			logicLysoAlShell,   //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
+	//logicLyso -> SetVisAttributes(red);
+
+
 }
 
 
 //////////////////////////////////////////////////////////////
 void DetectorConstruction::NaI()
 {
-  // ------------------//
-  // WATER PHANTOM	 //
-  //-------------------//
-  
-  //Lyso_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");
+	// ------------------//
+	// WATER PHANTOM	 //
+	//-------------------//
 
-  G4Tubs* solidNaIAlShell = new G4Tubs("solidNaIAlShell",                       //its name
-				      NaIAlShell_RMin, 
-				      NaIAlShell_RMax, 
-				      NaIAlShell_HLZ,
-				      0,
-				      360*deg);     //its size
-      
-  logicNaIAlShell = new G4LogicalVolume(solidNaIAlShell,          //its solid
-					 NaIAlShell_mat,           //its material
-					 "logicNaIAlShell");            //its name
-                                   
-  physicalNaIAlShell =  new G4PVPlacement( G4Transform3D(YRot, NaI_Trans),       //la faccia in z del WP e' nell'origine
-					   logicNaIAlShell,            //its logical volume
-					   "physicalNaIAlShell",               //its name
-					   logicTreatmentRoom,   //its mother  volume
-					   false,                 //no boolean operation
-					   0,                     //copy number
-					   checkOverlaps);        //overlaps checking
+	//Lyso_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");
 
-  
-  G4Tubs* solidNaI = new G4Tubs("solidNaI",                       //its name
-			       NaI_RMin, 
-			       NaI_RMax, 
-			       NaI_HLZ,
-			       0,
-			       360*deg);     //its size
-      
-  logicNaI = new G4LogicalVolume(solidNaI,          //its solid
-				  NaI_mat,           //its material
-				  "logicNaI");            //its name
-                                   
-  physicalNaI =  new G4PVPlacement(0,                     //no rotation
-				    G4ThreeVector(0,0,0),       //la faccia in z del WP e' nell'origine
-				    logicNaI,            //its logical volume
-				    "physicalNaI",               //its name
-				    logicNaIAlShell,   //its mother  volume
-				    false,                 //no boolean operation
-				    0,                     //copy number
-				    checkOverlaps);        //overlaps checking
-    
-    
+	G4Tubs* solidNaIAlShell = new G4Tubs("solidNaIAlShell",                       //its name
+			NaIAlShell_RMin, 
+			NaIAlShell_RMax, 
+			NaIAlShell_HLZ,
+			0,
+			360*deg);     //its size
+
+	logicNaIAlShell = new G4LogicalVolume(solidNaIAlShell,          //its solid
+			NaIAlShell_mat,           //its material
+			"logicNaIAlShell");            //its name
+
+	physicalNaIAlShell =  new G4PVPlacement( G4Transform3D(YRot, NaI_Trans),       //la faccia in z del WP e' nell'origine
+			logicNaIAlShell,            //its logical volume
+			"physicalNaIAlShell",               //its name
+			logicTreatmentRoom,   //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
+
+
+	G4Tubs* solidNaI = new G4Tubs("solidNaI",                       //its name
+			NaI_RMin, 
+			NaI_RMax, 
+			NaI_HLZ,
+			0,
+			360*deg);     //its size
+
+	logicNaI = new G4LogicalVolume(solidNaI,          //its solid
+			NaI_mat,           //its material
+			"logicNaI");            //its name
+
+	physicalNaI =  new G4PVPlacement(0,                     //no rotation
+			G4ThreeVector(0,0,0),       //la faccia in z del WP e' nell'origine
+			logicNaI,            //its logical volume
+			"physicalNaI",               //its name
+			logicNaIAlShell,   //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
+
+
+}
+
+//////////////////////////////////////////////////////////////
+void DetectorConstruction::LaBr()
+{
+	// ------------------//
+	// WATER PHANTOM	 //
+	//-------------------//
+
+	//Lyso_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");
+
+	G4Tubs* solidLaBrAlShell = new G4Tubs("solidLaBrAlShell",                       //its name
+			LaBrAlShell_RMin, 
+			LaBrAlShell_RMax, 
+			LaBrAlShell_HLZ,
+			0,
+			360*deg);     //its size
+
+	logicLaBrAlShell = new G4LogicalVolume(solidLaBrAlShell,          //its solid
+			LaBrAlShell_mat,           //its material
+			"logicLaBrAlShell");            //its name
+
+	physicalLaBrAlShell =  new G4PVPlacement( G4Transform3D(YRot, LaBr_Trans),       //la faccia in z del WP e' nell'origine
+			logicLaBrAlShell,            //its logical volume
+			"physicalLaBrAlShell",               //its name
+			logicTreatmentRoom,   //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
+
+
+	G4Tubs* solidLaBr = new G4Tubs("solidLaBr",                       //its name
+			LaBr_RMin, 
+			LaBr_RMax, 
+			LaBr_HLZ,
+			0,
+			360*deg);     //its size
+
+	logicLaBr = new G4LogicalVolume(solidLaBr,          //its solid
+			LaBr_mat,           //its material
+			"logicLaBr");            //its name
+
+	physicalLaBr =  new G4PVPlacement(0,                     //no rotation
+			G4ThreeVector(0,0,0),       //la faccia in z del WP e' nell'origine
+			logicLaBr,            //its logical volume
+			"physicalLaBr",               //its name
+			logicLaBrAlShell,   //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
+
+
 }
 
 
@@ -295,24 +348,24 @@ void DetectorConstruction::NaI()
 void DetectorConstruction::ScintStart_1()
 {
 
-    G4Box* solidScintStart_1 = new G4Box("solidScintStart_1",
-                                ScintStart_1_HLX,
-                                ScintStart_1_HLY,
-                                ScintStart_1_HLZ);
+	G4Box* solidScintStart_1 = new G4Box("solidScintStart_1",
+			ScintStart_1_HLX,
+			ScintStart_1_HLY,
+			ScintStart_1_HLZ);
 
-    logicScintStart_1 = new G4LogicalVolume(solidScintStart_1,
-                                             BC400,
-                                             "logicScintStart_1",
-                                             0,0,0);
-    
-    physicalScintStart_1 = new G4PVPlacement(0,                     //no rotation
-                      ScintStart_1_Trans,       //translation
-                      logicScintStart_1,            //its logical volume
-                      "physicalScintStart_1",               //its name
-                      logicTreatmentRoom,                     //its mother  volume
-                      false,                 //no boolean operation
-                      0,                     //copy number
-                      checkOverlaps);        //overlaps checking
+	logicScintStart_1 = new G4LogicalVolume(solidScintStart_1,
+			BC400,
+			"logicScintStart_1",
+			0,0,0);
+
+	physicalScintStart_1 = new G4PVPlacement(0,                     //no rotation
+			ScintStart_1_Trans,       //translation
+			logicScintStart_1,            //its logical volume
+			"physicalScintStart_1",               //its name
+			logicTreatmentRoom,                     //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
 
 
 }
@@ -321,23 +374,23 @@ void DetectorConstruction::ScintStart_1()
 void DetectorConstruction::ScintVeto_1()
 {
 
-    G4Box* solidScintVeto_1 = new G4Box("solidScintVeto_1",
-                                ScintVeto_1_HLX,
-                                ScintVeto_1_HLY,
-                                ScintVeto_1_HLZ);
+	G4Box* solidScintVeto_1 = new G4Box("solidScintVeto_1",
+			ScintVeto_1_HLX,
+			ScintVeto_1_HLY,
+			ScintVeto_1_HLZ);
 
-    logicScintVeto_1 = new G4LogicalVolume(solidScintVeto_1,
-                                             BC400,
-                                             "logicScintVeto_1",
-                                             0,0,0);
-    
-    physicalScintVeto_1 = new G4PVPlacement(G4Transform3D(YRot, ScintVeto_1_Trans),      //translation
-                      logicScintVeto_1,            //its logical volume
-                      "physicalScintVeto_1",               //its name
-                      logicTreatmentRoom,                     //its mother  volume
-                      false,                 //no boolean operation
-                      0,                     //copy number
-                      checkOverlaps);        //overlaps checking
+	logicScintVeto_1 = new G4LogicalVolume(solidScintVeto_1,
+			BC400,
+			"logicScintVeto_1",
+			0,0,0);
+
+	physicalScintVeto_1 = new G4PVPlacement(G4Transform3D(YRot, ScintVeto_1_Trans),      //translation
+			logicScintVeto_1,            //its logical volume
+			"physicalScintVeto_1",               //its name
+			logicTreatmentRoom,                     //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
 
 }
 
@@ -345,233 +398,250 @@ void DetectorConstruction::ScintVeto_1()
 void DetectorConstruction::ScintVeto_2()
 {
 
-    G4Box* solidScintVeto_2 = new G4Box("solidScintVeto_2",
-                                ScintVeto_2_HLX,
-                                ScintVeto_2_HLY,
-                                ScintVeto_2_HLZ);
+	G4Box* solidScintVeto_2 = new G4Box("solidScintVeto_2",
+			ScintVeto_2_HLX,
+			ScintVeto_2_HLY,
+			ScintVeto_2_HLZ);
 
-    logicScintVeto_2 = new G4LogicalVolume(solidScintVeto_2,
-                                             BC400,
-                                             "logicScintVeto_2",
-                                             0,0,0);
-    
-    physicalScintVeto_2 = new G4PVPlacement(G4Transform3D(YRot, ScintVeto_2_Trans),      //translation
-                      logicScintVeto_2,            //its logical volume
-                      "physicalScintVeto_2",               //its name
-                      logicTreatmentRoom,                     //its mother  volume
-                      false,                 //no boolean operation
-                      0,                     //copy number
-                      checkOverlaps);        //overlaps checking
+	logicScintVeto_2 = new G4LogicalVolume(solidScintVeto_2,
+			BC400,
+			"logicScintVeto_2",
+			0,0,0);
+
+	physicalScintVeto_2 = new G4PVPlacement(G4Transform3D(YRot, ScintVeto_2_Trans),      //translation
+			logicScintVeto_2,            //its logical volume
+			"physicalScintVeto_2",               //its name
+			logicTreatmentRoom,                     //its mother  volume
+			false,                 //no boolean operation
+			0,                     //copy number
+			checkOverlaps);        //overlaps checking
 
 }
 ////////////////////////////////////////////////////////////////////////
 void DetectorConstruction::SetDefaultDimensions()
 {
 
-  // ELEMENTS
-  G4bool isotopes = false;
-  G4Material* Al_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");
+	// ELEMENTS
+	G4bool isotopes = false;
+	G4Material* Al_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");
 
-  ScintStart_1_HLX = 2.5*cm;
-  ScintStart_1_HLY = 2.5*cm;
-  ScintStart_1_HLZ = 1.*mm;
-  ScintStart_1_Trans = G4ThreeVector(0,0,100.*cm);
-
-
-  WP_HLX = 5.*cm;
-  WP_HLY = 5.*cm;
-  WP_HLZ = 1*cm;
-  WP_Trans = G4ThreeVector(0,0,10.*cm);
-  WP_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER");
-
-  Target_RMax = 0.5*cm; //Y89Default
-  Target_RMin = 0.*mm;
-  Target_HLZ = 5*mm;  //1cm alt0
-  //TargetRot.rotateX(90*deg);
-  TargetRot.rotateX(0*deg);
-  Target_Trans = G4ThreeVector(0,0,120*cm); //the NaI entrance is at 89 cm from WP lateral edge
-  Target_mat = MaterialWithSingleIsotope("YttriumRod","YRod", 4.47*g/cm3, 39,  89);
-
-  G4Element* el_Cu =  new G4Element("El_Copper","Cu", 29,  63.54*g/mole);
-  Cu_mat = new G4Material("Copper_mat", 8.92*g/cm3, 1);
-  Cu_mat -> AddElement(el_Cu, 1);
+	ScintStart_1_HLX = 2.5*cm;
+	ScintStart_1_HLY = 2.5*cm;
+	ScintStart_1_HLZ = 1.5*mm;
+	ScintStart_1_Trans = G4ThreeVector(0,0,77*cm);
 
 
-  ScintVeto_1_HLX = 2.5*cm;
-  ScintVeto_1_HLY = 2.5*cm;
-  ScintVeto_1_HLZ = 2.5*mm;
-  ScintVeto_1_Trans = Target_Trans + G4ThreeVector(5.*cm,0,0);
+	WP_HLX = 5.*cm;
+	WP_HLY = 5.*cm;
+	WP_HLZ = 1*cm;
+	WP_Trans = G4ThreeVector(0,0,40*cm);
+	WP_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_WATER");
 
-  ScintVeto_2_HLX = 2.5*cm;
-  ScintVeto_2_HLY = 2.5*cm;
-  ScintVeto_2_HLZ = 2.5*mm;
-  ScintVeto_2_Trans = Target_Trans - G4ThreeVector(10.*cm,0,0);
+	Target_RMax = 0.5*cm; //Y89Default
+	Target_RMin = 0.*mm;
+	Target_HLZ = 5*mm;  //1cm alt0
+	//TargetRot.rotateX(90*deg);
+	TargetRot.rotateX(0*deg);
+	Target_Trans = G4ThreeVector(0,0,120*cm); //the NaI entrance is at 89 cm from WP lateral edge
+	Target_mat = MaterialWithSingleIsotope("YttriumRod","YRod", 4.47*g/cm3, 39,  89);
+
+	G4Element* el_Cu =  new G4Element("El_Copper","Cu", 29,  63.54*g/mole);
+	Cu_mat = new G4Material("Copper_mat", 8.92*g/cm3, 1);
+	Cu_mat -> AddElement(el_Cu, 1);
 
 
-  //LysoCrystal
-  LysoAlShell_HLX = 22.*mm;
-  LysoAlShell_HLY = 22.*mm;
-  LysoAlShell_HLZ = 41.*mm;
-  Lyso_HLX = 20.*mm;
-  Lyso_HLY = 20.*mm;
-  Lyso_HLZ = 40.*mm;
-  YRot.rotateY(90*deg);
-  Lyso_Trans = ScintVeto_1_Trans + G4ThreeVector(10.*cm+LysoAlShell_HLZ,0,0); //the lyso entrance is at 89 cm from WP lateral edge
+	ScintVeto_1_HLX = 2.5*cm;
+	ScintVeto_1_HLY = 2.5*cm;
+	ScintVeto_1_HLZ = 2.5*mm;
+	ScintVeto_1_Trans = Target_Trans + G4ThreeVector(15.*cm,0,0);
 
-  LysoAlShell_mat = Al_mat;
-  G4Element* el_Lu =  new G4Element("Lutezio","Lu", 71,  174.967*g/mole);
-  G4Element* el_Y =  new G4Element("Yttrium","Y", 39,  88.90585*g/mole);
-  G4Element* el_Si =  new G4Element("Silicon","Si", 14,  28.0855*g/mole);
-  G4Element* el_O =  new G4Element("Oxygen","O", 8,  15.999*g/mole);
-  Lyso_mat = new G4Material("LYSO", 7.2*g/cm3, 4);
-  Lyso_mat -> AddElement(el_Lu, 0.680);
-  Lyso_mat -> AddElement(el_Y, 0.044);
-  Lyso_mat -> AddElement(el_Si, 0.072);
-  Lyso_mat -> AddElement(el_O, 0.204);
+	ScintVeto_2_HLX = 2.5*cm;
+	ScintVeto_2_HLY = 2.5*cm;
+	ScintVeto_2_HLZ = 2.5*mm;
+	ScintVeto_2_Trans = Target_Trans - G4ThreeVector(15.*cm,0,0);
 
-  //NaI
-  NaIAlShell_RMax = 25.9*mm;
-  NaIAlShell_RMin = 0.*mm;
-  NaIAlShell_HLZ = 27*mm;
-  NaI_RMax = 25.5*mm;
-  NaI_RMin = 0.*mm;
-  NaI_HLZ = 25.5*mm;
-  NaI_Trans = ScintVeto_2_Trans - G4ThreeVector(5.*cm+NaIAlShell_HLZ,0,0); //the NaI entrance is at 89 cm from WP lateral edge
 
-  NaIAlShell_mat = Al_mat;
-  NaI_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_SODIUM_IODIDE");
-    
-    // COMPOUND
-  G4Element* elH = new G4Element("Hydrogen", "H", 1., 1.01*g/mole);
-  
-  G4Element* elC = new G4Element("Oxygen","C", 6., 12.0107*g/mole);
+	//LysoCrystal
+	LysoAlShell_HLX = 22.*mm;
+	LysoAlShell_HLY = 22.*mm;
+	LysoAlShell_HLZ = 41.*mm;
+	Lyso_HLX = 20.*mm;
+	Lyso_HLY = 20.*mm;
+	Lyso_HLZ = 40.*mm;
+	YRot.rotateY(90*deg);
+	Lyso_Trans = ScintVeto_1_Trans + G4ThreeVector(3.5*cm+LysoAlShell_HLZ,0,0); //the lyso entrance is at 89 cm from WP lateral edge
 
-  BC400 = new G4Material("BC400",1.032*g/cm3, 2);
-  BC400->AddElement(elH, 0.08474);
-  BC400->AddElement(elC, 0.91526);
-  
-    
-  checkOverlaps = true;  //<---------------------
+	LysoAlShell_mat = Al_mat;
+	G4Element* el_Lu =  new G4Element("Lutezio","Lu", 71,  174.967*g/mole);
+	G4Element* el_Y =  new G4Element("Yttrium","Y", 39,  88.90585*g/mole);
+	G4Element* el_Si =  new G4Element("Silicon","Si", 14,  28.0855*g/mole);
+	G4Element* el_O =  new G4Element("Oxygen","O", 8,  15.999*g/mole);
+	Lyso_mat = new G4Material("LYSO", 7.2*g/cm3, 4);
+	Lyso_mat -> AddElement(el_Lu, 0.680);
+	Lyso_mat -> AddElement(el_Y, 0.044);
+	Lyso_mat -> AddElement(el_Si, 0.072);
+	Lyso_mat -> AddElement(el_O, 0.204);
+
+	//NaI
+	NaIAlShell_RMax = 25.9*mm;
+	NaIAlShell_RMin = 0.*mm;
+	NaIAlShell_HLZ = 27*mm;
+	NaI_RMax = 25.5*mm;
+	NaI_RMin = 0.*mm;
+	NaI_HLZ = 25.5*mm;
+	NaI_Trans = ScintVeto_2_Trans - G4ThreeVector(3.5*cm+NaIAlShell_HLZ,0,0); //the NaI entrance is at 89 cm from WP lateral edge
+
+	NaIAlShell_mat = Al_mat;
+	NaI_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_SODIUM_IODIDE");
+
+	//LaBr
+	G4Element* elLa = new G4Element("Lanthanum", "La", 57, 138.905*g/mole);
+        G4Element* elBr = new G4Element("Bromine","Br", 35, 79.904*g/mole);
+	LaBr_mat = new G4Material("LaBr3",5.08*g/cm3, 2);
+        LaBr_mat->AddElement(elLa, 1);
+        LaBr_mat->AddElement(elBr, 3);
+	
+	LaBrAlShell_RMax = 43.2*mm; //3mm
+	LaBrAlShell_RMin = 0.*mm;
+	LaBrAlShell_HLZ = 44.9*mm;
+	LaBr_RMax = 40.2*mm;
+	LaBr_RMin = 0.*mm;
+	LaBr_HLZ = 41.9*mm;
+	LaBr_Trans = ScintVeto_1_Trans + G4ThreeVector(3.5*cm+LaBrAlShell_HLZ,0,0); //the LaBr entrance is at 89 cm from WP lateral edge
+
+	LaBrAlShell_mat = Al_mat;
+	LaBr_mat = G4NistManager::Instance()->FindOrBuildMaterial("G4_SODIUM_IODIDE");
+
+	// COMPOUND
+	G4Element* elH = new G4Element("Hydrogen", "H", 1., 1.01*g/mole);
+	G4Element* elC = new G4Element("Oxygen","C", 6., 12.0107*g/mole);
+
+	BC400 = new G4Material("BC400",1.032*g/cm3, 2);
+	BC400->AddElement(elH, 0.08474);
+	BC400->AddElement(elC, 0.91526);
+
+
+	checkOverlaps = true;  //<---------------------
 }
 
 
 
 ////////////////////////////////////////////////////////////////////////
 G4Material* DetectorConstruction::MaterialWithSingleIsotope( G4String name,
-                           G4String symbol, G4double density, G4int Z, G4int A)
+		G4String symbol, G4double density, G4int Z, G4int A)
 {
- // define a material from an isotope
- //
- G4int ncomponents;
- G4double abundance, massfraction;
+	// define a material from an isotope
+	//
+	G4int ncomponents;
+	G4double abundance, massfraction;
 
- G4Isotope* isotope = new G4Isotope(symbol, Z, A);
+	G4Isotope* isotope = new G4Isotope(symbol, Z, A);
 
- G4Element* element  = new G4Element(name, symbol, ncomponents=1);
- element->AddIsotope(isotope, abundance= 100.*perCent);
- 
- G4Material* material = new G4Material(name, density, ncomponents=1);
- material->AddElement(element, massfraction=100.*perCent);
+	G4Element* element  = new G4Element(name, symbol, ncomponents=1);
+	element->AddIsotope(isotope, abundance= 100.*perCent);
 
- return material;
+	G4Material* material = new G4Material(name, density, ncomponents=1);
+	material->AddElement(element, massfraction=100.*perCent);
+
+	return material;
 }
 
 
 void DetectorConstruction::SetAbsorberSize(G4ThreeVector size)
 {
-  solidWP ->SetXHalfLength(size.getX());
-  solidWP ->SetYHalfLength(size.getY());
-  solidWP ->SetZHalfLength(size.getZ());
-  G4RunManager::GetRunManager()->GeometryHasBeenModified();
-  G4cout<<"The x y z size of the WP  (mm):\t"
-  << ((solidWP -> GetXHalfLength())*2) << " " << ((solidWP -> GetYHalfLength())*2) << " " << ((solidWP -> GetZHalfLength())*2)<< G4endl;
+	solidWP ->SetXHalfLength(size.getX());
+	solidWP ->SetYHalfLength(size.getY());
+	solidWP ->SetZHalfLength(size.getZ());
+	G4RunManager::GetRunManager()->GeometryHasBeenModified();
+	G4cout<<"The x y z size of the WP  (mm):\t"
+		<< ((solidWP -> GetXHalfLength())*2) << " " << ((solidWP -> GetYHalfLength())*2) << " " << ((solidWP -> GetZHalfLength())*2)<< G4endl;
 
 }
 void DetectorConstruction::SetAbsorberMaterial(G4String material)
 {
-  if (G4Material* pttoMaterial = G4NistManager::Instance()->FindOrBuildMaterial(material, false) )
-  {
-    if (pttoMaterial)
-    {
-      WP_mat  = pttoMaterial;
-      logicWP -> SetMaterial(WP_mat);
-      G4cout << "The material of the Absorber has been changed to " << material << G4endl;
-      G4RunManager::GetRunManager()->GeometryHasBeenModified();
-    }
-  }
-  else
-  {
-    G4cout << "WARNING: material \"" << material << "\" doesn't exist in NIST elements/materials"
-      " table [located in $G4INSTALL/source/materials/src/G4NistMaterialBuilder.cc]" << G4endl;
-  }
+	if (G4Material* pttoMaterial = G4NistManager::Instance()->FindOrBuildMaterial(material, false) )
+	{
+		if (pttoMaterial)
+		{
+			WP_mat  = pttoMaterial;
+			logicWP -> SetMaterial(WP_mat);
+			G4cout << "The material of the Absorber has been changed to " << material << G4endl;
+			G4RunManager::GetRunManager()->GeometryHasBeenModified();
+		}
+	}
+	else
+	{
+		G4cout << "WARNING: material \"" << material << "\" doesn't exist in NIST elements/materials"
+			" table [located in $G4INSTALL/source/materials/src/G4NistMaterialBuilder.cc]" << G4endl;
+	}
 }
 ////////////////////////////////////////////////////////////
 void DetectorConstruction::SetTargetMaterial(G4String material)
 {
-  if(material == "Copper")
-  {
-    Target_mat = Cu_mat;
-    logicTarget ->SetMaterial(Target_mat);
-G4cout << "The material of the Absorber has been changed to " << material << G4endl;
-    G4RunManager::GetRunManager()->GeometryHasBeenModified();
-  }
-  else if(material == "Yttrium")
-  {
-    logicTarget ->SetMaterial(Target_mat);
-G4cout << "The material of the Absorber has been changed to " << material << G4endl;
-    G4RunManager::GetRunManager()->GeometryHasBeenModified();
-  }
- else if (G4Material* pttoMaterial = G4NistManager::Instance()->FindOrBuildMaterial(material, false) )
-  {
-    if (pttoMaterial)
-    {
-      Target_mat  = pttoMaterial;
-       logicTarget -> SetMaterial(Target_mat);
-      G4cout << "The material of the Absorber has been changed to " << material << G4endl;
-      G4RunManager::GetRunManager()->GeometryHasBeenModified();
-    }
-  }
-  else
-  {
-    G4cout << "WARNING: material \"" << material << "\" doesn't exist in NIST elements/materials"
-      " table [located in $G4INSTALL/source/materials/src/G4NistMaterialBuilder.cc]" << G4endl;
-  }
+	if(material == "Copper")
+	{
+		Target_mat = Cu_mat;
+		logicTarget ->SetMaterial(Target_mat);
+		G4cout << "The material of the Absorber has been changed to " << material << G4endl;
+		G4RunManager::GetRunManager()->GeometryHasBeenModified();
+	}
+	else if(material == "Yttrium")
+	{
+		logicTarget ->SetMaterial(Target_mat);
+		G4cout << "The material of the Absorber has been changed to " << material << G4endl;
+		G4RunManager::GetRunManager()->GeometryHasBeenModified();
+	}
+	else if (G4Material* pttoMaterial = G4NistManager::Instance()->FindOrBuildMaterial(material, false) )
+	{
+		if (pttoMaterial)
+		{
+			Target_mat  = pttoMaterial;
+			logicTarget -> SetMaterial(Target_mat);
+			G4cout << "The material of the Absorber has been changed to " << material << G4endl;
+			G4RunManager::GetRunManager()->GeometryHasBeenModified();
+		}
+	}
+	else
+	{
+		G4cout << "WARNING: material \"" << material << "\" doesn't exist in NIST elements/materials"
+			" table [located in $G4INSTALL/source/materials/src/G4NistMaterialBuilder.cc]" << G4endl;
+	}
 
 }
 
 void DetectorConstruction::SetTargetLength(G4double value)
 {
-  //solidTarget -> SetOuterRadius(value);
-  solidTarget -> SetZHalfLength(value);
-  G4RunManager::GetRunManager()->GeometryHasBeenModified();
+	//solidTarget -> SetOuterRadius(value);
+	solidTarget -> SetZHalfLength(value);
+	G4RunManager::GetRunManager()->GeometryHasBeenModified();
 }
 
 ////////////////////////////////////////////////////////////////////////
 void DetectorConstruction::ConstructSDandField()
 {
 
-/*
-  LysoSD = new SensitiveDetector("LysoSD", "LysoHitsCollection", analysis);
-  G4SDManager::GetSDMpointer()->AddNewDetector(LysoSD); 
-  SetSensitiveDetector("logicLyso", LysoSD);
+	/*
+	   LysoSD = new SensitiveDetector("LysoSD", "LysoHitsCollection", analysis);
+	   G4SDManager::GetSDMpointer()->AddNewDetector(LysoSD); 
+	   SetSensitiveDetector("logicLyso", LysoSD);
 
-  NaISD = new SensitiveDetector("NaIDetectorSD", "NaIHitsCollection", analysis);
-  G4SDManager::GetSDMpointer()->AddNewDetector(NaISD); 
-  SetSensitiveDetector("logicNaI", NaISD);
+	   NaISD = new SensitiveDetector("NaIDetectorSD", "NaIHitsCollection", analysis);
+	   G4SDManager::GetSDMpointer()->AddNewDetector(NaISD); 
+	   SetSensitiveDetector("logicNaI", NaISD);
 
-  ScintStart_1SD = new SensitiveDetector("ScintStart_1SD", "ScintStart_1HitsCollection", analysis);
-  G4SDManager::GetSDMpointer()->AddNewDetector(ScintStart_1SD); 
-  SetSensitiveDetector("logicScintStart_1", ScintStart_1SD);
+	   ScintStart_1SD = new SensitiveDetector("ScintStart_1SD", "ScintStart_1HitsCollection", analysis);
+	   G4SDManager::GetSDMpointer()->AddNewDetector(ScintStart_1SD); 
+	   SetSensitiveDetector("logicScintStart_1", ScintStart_1SD);
 
-  ScintVeto_1SD = new SensitiveDetector("ScintVeto_1SD", "ScintVeto_1HitsCollection", analysis);
-  G4SDManager::GetSDMpointer()->AddNewDetector(ScintVeto_1SD); 
-  SetSensitiveDetector("logicScintVeto_1", ScintVeto_1SD);
+	   ScintVeto_1SD = new SensitiveDetector("ScintVeto_1SD", "ScintVeto_1HitsCollection", analysis);
+	   G4SDManager::GetSDMpointer()->AddNewDetector(ScintVeto_1SD); 
+	   SetSensitiveDetector("logicScintVeto_1", ScintVeto_1SD);
 
-  ScintVeto_2SD = new SensitiveDetector("ScintVeto_2SD", "ScintVeto_2HitsCollection", analysis);
-  G4SDManager::GetSDMpointer()->AddNewDetector(ScintVeto_2SD); 
-  SetSensitiveDetector("logicScintVeto_2", ScintVeto_2SD);
+	   ScintVeto_2SD = new SensitiveDetector("ScintVeto_2SD", "ScintVeto_2HitsCollection", analysis);
+	   G4SDManager::GetSDMpointer()->AddNewDetector(ScintVeto_2SD); 
+	   SetSensitiveDetector("logicScintVeto_2", ScintVeto_2SD);
 
-  */
+	 */
 
 
 }

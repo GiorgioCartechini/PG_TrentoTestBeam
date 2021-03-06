@@ -57,127 +57,143 @@ class DetectorConstructionMessenger;
 
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
-public:
-    DetectorConstruction(AnalysisManager* analysis);
-    ~DetectorConstruction();
+	public:
+		DetectorConstruction(AnalysisManager* analysis);
+		~DetectorConstruction();
 
-    G4VPhysicalVolume* Construct();
+		G4VPhysicalVolume* Construct();
 
-    void WaterPhantom();
-    void Target();
-    void LYSO();
-    void NaI();
-    void ScintStart_1();
-    void ScintVeto_1();
-    void ScintVeto_2();
+		void WaterPhantom();
+		void Target();
+		void LYSO();
+		void NaI();
+		void LaBr();
+		void ScintStart_1();
+		void ScintVeto_1();
+		void ScintVeto_2();
 
-    G4Material* MaterialWithSingleIsotope( G4String name, G4String symbol, G4double density, G4int Z, G4int A);
-	
-    void ConstructSDandField();
+		G4Material* MaterialWithSingleIsotope( G4String name, G4String symbol, G4double density, G4int Z, G4int A);
 
-    void SetAbsorberSize(G4ThreeVector size);
-    void SetAbsorberMaterial(G4String material);
-    void SetTargetMaterial(G4String material);
-    void SetTargetLength(G4double radius);
+		void ConstructSDandField();
 
-private:
-  AnalysisManager* analysis;
+		void SetAbsorberSize(G4ThreeVector size);
+		void SetAbsorberMaterial(G4String material);
+		void SetTargetMaterial(G4String material);
+		void SetTargetLength(G4double radius);
 
-  DetectorConstructionMessenger* DetectorMessenger;
-  
-  void SetDefaultDimensions();
+	private:
+		AnalysisManager* analysis;
 
+		DetectorConstructionMessenger* DetectorMessenger;
 
-  G4Box* solidWP;
-  G4Tubs* solidTarget;
-  
-  G4LogicalVolume* logicTreatmentRoom;
-  G4LogicalVolume* logicWP;
-  G4LogicalVolume* logicTarget;
-  G4LogicalVolume* logicScintStart_1;
-  G4LogicalVolume* logicScintVeto_1;
-  G4LogicalVolume* logicScintVeto_2;
-  G4LogicalVolume* logicLysoAlShell;
-  G4LogicalVolume* logicLyso;
-  G4LogicalVolume* logicNaIAlShell;
-  G4LogicalVolume* logicNaI;
-
-  G4VPhysicalVolume* physicalTreatmentRoom;
-  G4VPhysicalVolume* physicalWP;
-  G4VPhysicalVolume* physicalTarget;
-  G4VPhysicalVolume* physicalScintStart_1;
-  G4VPhysicalVolume* physicalScintVeto_1;
-  G4VPhysicalVolume* physicalScintVeto_2;
-  G4VPhysicalVolume* physicalLysoAlShell;
-  G4VPhysicalVolume* physicalLyso;
-  G4VPhysicalVolume* physicalNaIAlShell;
-  G4VPhysicalVolume* physicalNaI;
-
-    
-    
-  G4double ScintStart_1_HLX;
-  G4double ScintStart_1_HLY;
-  G4double ScintStart_1_HLZ;
-
-  G4double ScintVeto_1_HLX;
-  G4double ScintVeto_1_HLY;
-  G4double ScintVeto_1_HLZ;
-
-  G4double ScintVeto_2_HLX;
-  G4double ScintVeto_2_HLY;
-  G4double ScintVeto_2_HLZ;
-
-  G4double WP_HLX;
-  G4double WP_HLY;
-  G4double WP_HLZ;
-
-  G4double Target_RMax;
-  G4double Target_RMin;
-  G4double Target_HLZ;
-
-  G4double LysoAlShell_HLX;
-  G4double LysoAlShell_HLY;
-  G4double LysoAlShell_HLZ;
-
-  G4double Lyso_HLX;
-  G4double Lyso_HLY;
-  G4double Lyso_HLZ;
-
-  G4double NaIAlShell_RMax;
-  G4double NaIAlShell_RMin;
-  G4double NaIAlShell_HLZ;
-  G4double NaI_RMax;
-  G4double NaI_RMin;
-  G4double NaI_HLZ;
-
-    
-  //baf MATERIALS
-  G4Material* BC400;
-  G4Material* Target_mat;
-  G4Material* WP_mat;
-  G4Material* Lyso_mat;
-  G4Material* LysoAlShell_mat;
-  G4Material* NaIAlShell_mat;
-  G4Material* NaI_mat;
-  G4Material* Cu_mat;
+		void SetDefaultDimensions();
 
 
-  G4RotationMatrix YRot;
-  G4RotationMatrix TargetRot;
-  G4ThreeVector ScintStart_1_Trans;
-  G4ThreeVector ScintVeto_1_Trans;
-  G4ThreeVector ScintVeto_2_Trans;
-  G4ThreeVector WP_Trans;
-  G4ThreeVector Lyso_Trans;
-  G4ThreeVector NaI_Trans;
-  G4ThreeVector Target_Trans;
+		G4Box* solidWP;
+		G4Tubs* solidTarget;
 
-  SensitiveDetector* NaISD;
-  SensitiveDetector* LysoSD;
-  SensitiveDetector* ScintStart_1SD;
-  SensitiveDetector* ScintVeto_1SD;
-  SensitiveDetector* ScintVeto_2SD;
-    
-  G4bool checkOverlaps;
+		G4LogicalVolume* logicTreatmentRoom;
+		G4LogicalVolume* logicWP;
+		G4LogicalVolume* logicTarget;
+		G4LogicalVolume* logicScintStart_1;
+		G4LogicalVolume* logicScintVeto_1;
+		G4LogicalVolume* logicScintVeto_2;
+		G4LogicalVolume* logicLysoAlShell;
+		G4LogicalVolume* logicLyso;
+		G4LogicalVolume* logicNaIAlShell;
+		G4LogicalVolume* logicNaI;
+		G4LogicalVolume* logicLaBrAlShell;
+		G4LogicalVolume* logicLaBr;
+
+		G4VPhysicalVolume* physicalTreatmentRoom;
+		G4VPhysicalVolume* physicalWP;
+		G4VPhysicalVolume* physicalTarget;
+		G4VPhysicalVolume* physicalScintStart_1;
+		G4VPhysicalVolume* physicalScintVeto_1;
+		G4VPhysicalVolume* physicalScintVeto_2;
+		G4VPhysicalVolume* physicalLysoAlShell;
+		G4VPhysicalVolume* physicalLyso;
+		G4VPhysicalVolume* physicalNaIAlShell;
+		G4VPhysicalVolume* physicalNaI;
+		G4VPhysicalVolume* physicalLaBrAlShell;
+		G4VPhysicalVolume* physicalLaBr;
+
+
+
+
+		G4double ScintStart_1_HLX;
+		G4double ScintStart_1_HLY;
+		G4double ScintStart_1_HLZ;
+
+		G4double ScintVeto_1_HLX;
+		G4double ScintVeto_1_HLY;
+		G4double ScintVeto_1_HLZ;
+
+		G4double ScintVeto_2_HLX;
+		G4double ScintVeto_2_HLY;
+		G4double ScintVeto_2_HLZ;
+
+		G4double WP_HLX;
+		G4double WP_HLY;
+		G4double WP_HLZ;
+
+		G4double Target_RMax;
+		G4double Target_RMin;
+		G4double Target_HLZ;
+
+		G4double LysoAlShell_HLX;
+		G4double LysoAlShell_HLY;
+		G4double LysoAlShell_HLZ;
+
+		G4double Lyso_HLX;
+		G4double Lyso_HLY;
+		G4double Lyso_HLZ;
+
+		G4double NaIAlShell_RMax;
+		G4double NaIAlShell_RMin;
+		G4double NaIAlShell_HLZ;
+		G4double NaI_RMax;
+		G4double NaI_RMin;
+		G4double NaI_HLZ;
+
+		G4double LaBrAlShell_RMax;
+		G4double LaBrAlShell_RMin;
+		G4double LaBrAlShell_HLZ;
+		G4double LaBr_RMax;
+		G4double LaBr_RMin;
+		G4double LaBr_HLZ;
+
+
+		//baf MATERIALS
+		G4Material* BC400;
+		G4Material* Target_mat;
+		G4Material* WP_mat;
+		G4Material* Lyso_mat;
+		G4Material* LysoAlShell_mat;
+		G4Material* NaIAlShell_mat;
+		G4Material* LaBrAlShell_mat;
+		G4Material* NaI_mat; 
+		G4Material* LaBr_mat;
+		G4Material* Cu_mat;
+
+
+		G4RotationMatrix YRot;
+		G4RotationMatrix TargetRot;
+		G4ThreeVector ScintStart_1_Trans;
+		G4ThreeVector ScintVeto_1_Trans;
+		G4ThreeVector ScintVeto_2_Trans;
+		G4ThreeVector WP_Trans;
+		G4ThreeVector Lyso_Trans;
+		G4ThreeVector NaI_Trans;
+		G4ThreeVector LaBr_Trans;
+		G4ThreeVector Target_Trans;
+
+		SensitiveDetector* NaISD;
+		SensitiveDetector* LysoSD;
+		SensitiveDetector* ScintStart_1SD;
+		SensitiveDetector* ScintVeto_1SD;
+		SensitiveDetector* ScintVeto_2SD;
+
+		G4bool checkOverlaps;
 };
 #endif

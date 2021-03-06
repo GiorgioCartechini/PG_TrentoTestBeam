@@ -26,7 +26,7 @@
 // Authors: Susanna Guatelli, susanna@uow.edu.au,
 // Authors: Jeremy Davis, jad028@uowmail.edu.au
 //
- 
+
 
 #ifndef ANALYSISMANAGER_HH
 #define ANALYSISMANAGER_HH 
@@ -40,26 +40,28 @@
 class AnalysisManager
 { 
 
-public:
-   AnalysisManager();
-  ~AnalysisManager();
-  
-  void CreateNtuples(); // booking the ROOT file
-  
-  void OpenFile(G4String fileName); //open output file
-   
-  void FillLyso(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/);
-  void FillNaI(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
-  void FillScintStart1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
-  void FillScintVeto1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
-  void FillScintVeto2(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
-  void FillTarget(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/);
-  void FillLysoEdep(G4double Edep);
-  void FillNaIEdep(G4double Edep); 
-  // Information about secondary particles
+	public:
+		AnalysisManager();
+		~AnalysisManager();
 
-  void finish();
-  // Close the ROOT file with all the results stored in nutples 
+		void CreateNtuples(); // booking the ROOT file
+
+		void OpenFile(G4String fileName); //open output file
+
+		void FillLyso(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/);
+		void FillNaI(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/);
+		void FillLaBr(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
+		void FillScintStart1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
+		void FillScintVeto1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
+		void FillScintVeto2(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/); 
+		void FillTarget(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/);
+		void FillLysoEdep(G4double Edep);
+		void FillNaIEdep(G4double Edep); 
+		void FillLaBrEdep(G4double Edep); 
+		// Information about secondary particles
+
+		void finish();
+		// Close the ROOT file with all the results stored in nutples 
 
 };
 

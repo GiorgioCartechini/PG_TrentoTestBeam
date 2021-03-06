@@ -65,7 +65,14 @@ void AnalysisManager::CreateNtuples()
   manager -> CreateNtupleDColumn("Time");
   manager -> FinishNtuple();
 
-  
+   manager -> CreateNtuple("LaBr", "LaBr");
+  manager -> CreateNtupleIColumn("PDG");
+  manager -> CreateNtupleIColumn("TargetVol");
+  manager -> CreateNtupleDColumn("Ekin");
+  manager -> CreateNtupleDColumn("Time");
+  manager -> FinishNtuple();
+
+ 
   manager -> CreateNtuple("ScintStart1", "ScintStart1");
   manager -> CreateNtupleIColumn("PDG");
   manager -> CreateNtupleIColumn("TargetVol");
@@ -99,6 +106,10 @@ void AnalysisManager::CreateNtuples()
   manager -> FinishNtuple();
 
   manager -> CreateNtuple("NaIEdep", "NaIEdep");
+  manager -> CreateNtupleDColumn("EDep");
+  manager -> FinishNtuple();
+
+  manager -> CreateNtuple("LaBrEdep", "LaBrEdep");
   manager -> CreateNtupleDColumn("EDep");
   manager -> FinishNtuple();
 
@@ -150,7 +161,7 @@ void AnalysisManager::FillNaI(G4int PDG, G4double Time, G4int Volume, G4double E
   manager -> AddNtupleRow(1);  
 }
 
-void AnalysisManager::FillScintStart1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+void AnalysisManager::FillLaBr(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
@@ -162,7 +173,8 @@ void AnalysisManager::FillScintStart1(G4int PDG, G4double Time, G4int Volume, G4
   manager -> AddNtupleRow(2);  
 }
 
-void AnalysisManager::FillScintVeto1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+
+void AnalysisManager::FillScintStart1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
@@ -174,8 +186,7 @@ void AnalysisManager::FillScintVeto1(G4int PDG, G4double Time, G4int Volume, G4d
   manager -> AddNtupleRow(3);  
 }
 
-
-void AnalysisManager::FillScintVeto2(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+void AnalysisManager::FillScintVeto1(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
@@ -187,33 +198,55 @@ void AnalysisManager::FillScintVeto2(G4int PDG, G4double Time, G4int Volume, G4d
   manager -> AddNtupleRow(4);  
 }
 
-void AnalysisManager::FillTarget(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+
+void AnalysisManager::FillScintVeto2(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
   manager -> FillNtupleIColumn(5, 0, PDG);
   manager -> FillNtupleIColumn(5, 1, Volume);
   manager -> FillNtupleDColumn(5, 2, Ekin);
-  //manager -> FillNtupleDColumn(0, 3, Edep);
+  //manager -> FillNtupleDColum(0, 3, Edep);
   manager -> FillNtupleDColumn(5, 3, Time);
   manager -> AddNtupleRow(5);  
+}
+
+void AnalysisManager::FillTarget(G4int PDG, G4double Time, G4int Volume, G4double Ekin /*, G4double Edep, G4double Time*/)
+{
+
+  G4AnalysisManager* manager = G4AnalysisManager::Instance();
+  manager -> FillNtupleIColumn(6, 0, PDG);
+  manager -> FillNtupleIColumn(6, 1, Volume);
+  manager -> FillNtupleDColumn(6, 2, Ekin);
+  //manager -> FillNtupleDColumn(0, 3, Edep);
+  manager -> FillNtupleDColumn(6, 3, Time);
+  manager -> AddNtupleRow(6);  
 }
 
 void AnalysisManager::FillLysoEdep(G4double Edep)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
-  manager -> FillNtupleDColumn(6, 0, Edep);
-  manager -> AddNtupleRow(6);  
+  manager -> FillNtupleDColumn(7, 0, Edep);
+  manager -> AddNtupleRow(7);  
 }
 
 void AnalysisManager::FillNaIEdep(G4double Edep)
 {
 
   G4AnalysisManager* manager = G4AnalysisManager::Instance();
-  manager -> FillNtupleDColumn(7, 0, Edep);
-  manager -> AddNtupleRow(7);  
+  manager -> FillNtupleDColumn(8, 0, Edep);
+  manager -> AddNtupleRow(8);  
 }
+
+void AnalysisManager::FillLaBrEdep(G4double Edep)
+{
+
+  G4AnalysisManager* manager = G4AnalysisManager::Instance();
+  manager -> FillNtupleDColumn(9, 0, Edep);
+  manager -> AddNtupleRow(9);  
+}
+ 
  
 void AnalysisManager::finish() 
 {   

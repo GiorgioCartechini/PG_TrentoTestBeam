@@ -44,7 +44,7 @@
     GeomDir -> SetGuidance("Command to Change geometry");
 
 
-    Target_Radius = new G4UIcmdWithADoubleAndUnit("/changeGeometry/TargetHLength", this);
+    Target_Radius = new G4UIcmdWithADoubleAndUnit("/changeGeometry/TargetRadius", this);
     Target_Radius -> SetGuidance("Change the target radius");
     Target_Radius -> SetParameterName("TargetRadius", false);
     Target_Radius -> SetDefaultUnit("cm");
